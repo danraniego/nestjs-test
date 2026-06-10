@@ -12,6 +12,12 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'X-ORG-ID'],
+  });
+
   app.setGlobalPrefix('api/v1');
 
   await app.init();
