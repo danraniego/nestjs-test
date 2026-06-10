@@ -21,6 +21,8 @@ export default tseslint.config(
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
       },
     },
   },
@@ -30,6 +32,13 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       "prettier/prettier": ["error", { endOfLine: "auto" }],
+    },
+  },
+  {
+    files: ['**/*.dto.ts'],
+    rules: {
+      // class-validator decorators are typed; ESLint cannot always resolve them
+      '@typescript-eslint/no-unsafe-call': 'off',
     },
   },
 );
