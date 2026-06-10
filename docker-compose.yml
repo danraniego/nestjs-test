@@ -13,6 +13,7 @@ services:
       - '${DB_PORT}:5432'
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./docker/init-app-role.sql:/docker-entrypoint-initdb.d/init-app-role.sql
 
 volumes:
   postgres_data:

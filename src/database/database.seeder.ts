@@ -1,9 +1,17 @@
 import { INestApplication } from '@nestjs/common';
-import { getModelToken } from '@nestjs/sequelize';
-import { Mission } from '../modules/missions/missions.model';
+import { ConfigService } from '@nestjs/config';
+
+import { createAdminSequelize } from './rls/create-admin-sequelize';
 import { seedMissions } from './seeders/mission.seeder';
 
 export async function runSeeders(app: INestApplication) {
-  const missionModel = app.get<typeof Mission>(getModelToken(Mission));
-  await seedMissions(missionModel);
+  const configService = app.get(ConfigService);
+  const adminSequelize = createAdminSequelize(configService);
+
+  try {
+    await adminSequelize.authenticate();
+    await seedMissions(adminSequelize);
+  } finally {
+    await adminSequelize.close();
+  }
 }
